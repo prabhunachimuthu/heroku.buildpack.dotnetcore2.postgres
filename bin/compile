@@ -31,7 +31,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=${DOTNET_CLI_TELEMETRY_OPTOUT:-1}
 echo "Installing the dependencies"
 apt_install libunwind8 gettext libgdiplus
 
-cd .apt/usr/lib
 ln -s /opt/usr/lib/libgdiplus.so /opt/usr/lib/gdiplus.dll
 
 echo "Installing dotnet"
