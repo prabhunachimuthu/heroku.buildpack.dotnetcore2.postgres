@@ -32,7 +32,7 @@ echo "Installing the dependencies"
 apt_install libunwind8 gettext libgdiplus
 
 cd .apt/usr/lib
-ln -s libgdiplus.so gdiplus.dll
+ln -s /opt/usr/lib/libgdiplus.so /opt/usr/lib/gdiplus.dll
 
 echo "Installing dotnet"
 install_dotnet $BUILD_DIR $CACHE_DIR
