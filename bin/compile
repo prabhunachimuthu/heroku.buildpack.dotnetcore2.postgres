@@ -38,7 +38,7 @@ then
 	export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
 	
 	#Find package.json
-	PACKAGE_JSON_FILES=$(find ${BUILD_DIR}/. -maxdepth 3 -iname "package.json")
+	PACKAGE_JSON_FILES=$(find ${BUILD_DIR}/. -maxdepth 1 -iname "package.json")
 	echo 'Found %s project.json files\n' $(echo "$PACKAGE_JSON_FILES" | wc -l | tr -d ' ')
 	PACKAGE_JSON_FILE=$(echo "$PACKAGE_JSON_FILES" | head -1)
 	npm install $PACKAGE_JSON_FILE
