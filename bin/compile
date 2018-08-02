@@ -21,7 +21,7 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 mkdir -p $BUILD_DIR/.profile.d
 cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
 ### Install NodeJS
-if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
+if [[ -n $(find ${BP_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
  print "Install Node"
  NODE_PATH=`mktemp -d`
