@@ -19,8 +19,6 @@ ENV_DIR=${3:-}
 : ${NODE_VERSION:="6.3.1"}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
-mkdir -p $BUILD_DIR/.profile.d
-cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
 ### Install NodeJS
 if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
@@ -41,6 +39,10 @@ then
   npm install -g gulp-cli
  fi
 fi
+
+mkdir -p $BUILD_DIR/.profile.d
+cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
+
 ### Load dependencies
 source $BP_DIR/lib/helpers
 
