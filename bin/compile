@@ -30,12 +30,24 @@ export_env_dir $ENV_DIR
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=${DOTNET_SKIP_FIRST_TIME_EXPERIENCE:-1}
 export DOTNET_CLI_TELEMETRY_OPTOUT=${DOTNET_CLI_TELEMETRY_OPTOUT:-1}
 
+# Create Source Directory
+# If you compiled from build dirctory directly then dnu publish throws error due to directory name
+# contains underscore '_'. dnu will not support
+SRC_DIR=`mktemp -d`
+# Move source code into temporary src dir
+(
+    shopt -s dotglob
+    mv ${BUILD_DIR}/* ${SRC_DIR}
+)
+print "Build Dir Path: ${SRC_DIR}"
 
-if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]]
+
+if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
 	echo "Install Node"
 	NODE_PATH=`mktemp -d`
-	curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls 
+	curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls \ | tar xz -C ${NODE_PATH}
+	
 	export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
 	
 	echo "Install bower"
