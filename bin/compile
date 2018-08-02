@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
-export "$PATH:\$PATH"
+
 ### Configure environment
 set -o errexit    # always exit on error
 set -o pipefail   # don't ignore exit codes when piping output
@@ -20,7 +20,25 @@ BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 mkdir -p $BUILD_DIR/.profile.d
 cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
-
+### Install NodeJS
+if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
+then
+ print "Install Node"
+ NODE_PATH=`mktemp -d`
+ : ${NODE_VERSION:="6.3.1"}
+ curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls \ | tar xz -C ${NODE_PATH}
+ export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
+ 
+ print "Install bower"
+ if ! hash bower 2>/dev/null; then
+  npm install -g bower
+ fi
+ 
+ print "Install gulp"
+ if ! hash gulp 2>/dev/null; then
+  npm install -g gulp-cli
+ fi
+fi
 ### Load dependencies
 source $BP_DIR/lib/helpers
 
@@ -29,7 +47,7 @@ export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=${DOTNET_SKIP_FIRST_TIME_EXPERIENCE:-1}
 export DOTNET_CLI_TELEMETRY_OPTOUT=${DOTNET_CLI_TELEMETRY_OPTOUT:-1}
 
 echo "Installing the dependencies"
-apt_install libunwind8 gettext xvfb libfontconfig wkhtmltopdf
+apt_install libunwind8 gettext
 
 
 echo "Installing dotnet"
