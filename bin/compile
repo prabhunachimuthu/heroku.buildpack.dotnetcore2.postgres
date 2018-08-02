@@ -28,23 +28,12 @@ export_env_dir ${ENV_DIR}
 # Create Cache Directory
 mkdir -p ${CACHE_DIR}
 
-# Create Source Directory
-# If you compiled from build dirctory directly then dnu publish throws error due to directory name
-# contains underscore '_'. dnu will not support
-SRC_DIR=`mktemp -d`
-# Move source code into temporary src dir
-(
-    shopt -s dotglob
-    mv ${BUILD_DIR}/* ${SRC_DIR}
-)
-echo "Build Dir Path: ${SRC_DIR}"
 
-
-if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
+if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
 	echo "Install Node"
 	NODE_PATH=`mktemp -d`
-	curl -SL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz   | tar xz -C ${NODE_PATH}
+	curl -SL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls  | tar xz -C ${NODE_PATH}
 	
 	export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
 	
@@ -74,6 +63,9 @@ install_dotnet $BUILD_DIR $CACHE_DIR
 
 export PATH="/app/dotnet:${PATH}"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
+if [ -n "$NODE_PATH" ]; then
+	export PATH="${BUILD_DIR}/node_modules/.bin:${PATH}"
+fi
 
 cd $BUILD_DIR
 dotnet --info
