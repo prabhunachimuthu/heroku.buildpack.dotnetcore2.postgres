@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir> <env-dir>
-
+export "$PATH:\$PATH"
 ### Configure environment
 set -o errexit    # always exit on error
 set -o pipefail   # don't ignore exit codes when piping output
