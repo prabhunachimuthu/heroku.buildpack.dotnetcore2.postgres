@@ -38,6 +38,8 @@ apt_install nodejs npm libunwind8 gettext
 
 nodejs -v
 
+npm install html-to-pdf
+
 echo "Installing dotnet"
 install_dotnet $BUILD_DIR $CACHE_DIR
 
