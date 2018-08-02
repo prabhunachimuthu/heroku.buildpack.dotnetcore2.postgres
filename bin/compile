@@ -16,6 +16,7 @@ fi
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
+: ${NODE_VERSION:="6.3.1"}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
 mkdir -p $BUILD_DIR/.profile.d
@@ -25,9 +26,8 @@ if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]
 then
  echo "Install Node"
  NODE_PATH=`mktemp -d`
-: ${NODE_VERSION:="6.3.1"}
-echo ${NODE_PATH}
-echo `https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz`
+ echo ${NODE_PATH}
+ ##3echo `https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz`
  curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls \ | tar xz -C ${NODE_PATH}
  export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
  
