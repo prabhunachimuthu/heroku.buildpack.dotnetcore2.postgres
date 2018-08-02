@@ -17,26 +17,24 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
-function print() {
-  echo "-----> $*"
-}
+
 mkdir -p $BUILD_DIR/.profile.d
 cp $BP_DIR/profile/* $BUILD_DIR/.profile.d/
 ### Install NodeJS
 if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
- print "Install Node"
+ echo "Install Node"
  NODE_PATH=`mktemp -d`
- NODE_VERSION="6.3.1"
+: ${NODE_VERSION:="6.3.1"}
  curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls \ | tar xz -C ${NODE_PATH}
  export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
  
- print "Install bower"
+ echo "Install bower"
  if ! hash bower 2>/dev/null; then
   npm install -g bower
  fi
  
- print "Install gulp"
+ echo "Install gulp"
  if ! hash gulp 2>/dev/null; then
   npm install -g gulp-cli
  fi
