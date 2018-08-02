@@ -36,7 +36,12 @@ then
 	curl -SL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls  | tar xz -C ${NODE_PATH}
 	
 	export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
-	npm install
+	
+	#Find package.json
+	PACKAGE_JSON_FILES=$(find ${SRC_DIR}/. -maxdepth 3 -iname "package.json")
+	echo 'Found %s project.json files\n' $(echo "$PACKAGE_JSON_FILES" | wc -l | tr -d ' ')
+	PACKAGE_JSON_FILE=$(echo "$PACKAGE_JSON_FILES" | head -1)
+	npm install $PACKAGE_JSON_FILE
 	echo $PATH
 	node --version
 	echo "Install bower"
