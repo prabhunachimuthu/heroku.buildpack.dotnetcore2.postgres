@@ -36,6 +36,7 @@ then
  ##3echo `https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz`
  curl --version
  curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz -Ls \ | tar xz -C ${NODE_PATH}
+ echo "node path"
  export PATH="${NODE_PATH}/node-v${NODE_VERSION}-linux-x64/bin:${PATH}"
  
  echo "Install bower"
