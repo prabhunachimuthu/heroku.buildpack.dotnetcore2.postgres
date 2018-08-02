@@ -19,8 +19,16 @@ ENV_DIR=${3:-}
 : ${NODE_VERSION:="6.3.1"}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
+SRC_DIR=`mktemp -d`
+# Move source code into temporary src dir
+(
+    shopt -s dotglob
+    mv ${BUILD_DIR}/* ${SRC_DIR}
+)
+echo "Build Dir Path: ${SRC_DIR}"
+
 ### Install NodeJS
-if [[ -n $(find ${BUILD_DIR} -type f -iname package.json -o -iname bower.json) ]]
+if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
 then
  echo "Install Node"
  NODE_PATH=`mktemp -d`
