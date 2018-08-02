@@ -39,7 +39,7 @@ SRC_DIR=`mktemp -d`
     shopt -s dotglob
     mv ${BUILD_DIR}/* ${SRC_DIR}
 )
-print "Build Dir Path: ${SRC_DIR}"
+echo "Build Dir Path: ${SRC_DIR}"
 
 
 if [[ -n $(find ${SRC_DIR} -type f -iname package.json -o -iname bower.json) ]]
